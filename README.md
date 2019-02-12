@@ -15,3 +15,10 @@ Skeleton for creating a basic node application that uses typescript, nodemon, ts
  * routes
      * Added Routers, Controllers, Repositories, etc. using hard-coded data
      * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b routes \[projectFolder\]
+
+ * sqlite
+     * Added sqlite database access
+     * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b sqlite \[projectFolder\]
+     * To create sample model run: node create-db.js
+     
+      
