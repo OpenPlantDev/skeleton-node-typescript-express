@@ -1,8 +1,14 @@
 import express from "express";
+import {Router} from "express";
+
+export interface IApiRouter {
+    route: string;
+    Routes: () => Router;
+}
 
 export class Api {
 
-    Start (): void {
+    Start (routers: Array<IApiRouter>): void {
         const api = express();
         // this replaces using body-parser in express 4.16
         api.use(express.urlencoded({extended: true}));
@@ -13,6 +19,11 @@ export class Api {
             return res.send("Hello from the API");
 
         });
+
+        // routers
+        routers.map((router) => {
+            api.use(router.route, router.Routes());
+        })
 
         // Start the server
 
