@@ -7,3 +7,11 @@ Skeleton for creating a basic node application that uses typescript, nodemon, ts
     * Open Terminal Window
         * npm install
         * npm run dev
+## Tags
+ * helloWorld 
+     * Simple api that just returns hello world for /api route
+     * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b helloWorld \[projectFolder\]
+     
+ * routes
+     * Added Routers, Controllers, Repositories, etc. using hard-coded data
+     * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b routes \[projectFolder\]
