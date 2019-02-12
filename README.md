@@ -20,5 +20,9 @@ Skeleton for creating a basic node application that uses typescript, nodemon, ts
      * Added sqlite database access
      * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b sqlite \[projectFolder\]
      * To create sample model run: node create-db.js
-     
+
+ * dependencyInjection
+     * Added dependency injection using inversify
+     * git clone https://github.com/OpenPlantDev/skeleton-node-typescript.git -b dependencyInjection \[projectFolder\]
+
       
