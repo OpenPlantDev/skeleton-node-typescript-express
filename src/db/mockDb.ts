@@ -1,3 +1,4 @@
+import {injectable} from "inversify";
 import {Guid} from "guid-typescript";
 import {IElement} from "../models/element";
 import {IElementRepositoryGetActionResult, 
@@ -7,6 +8,7 @@ import {IElementRepositoryGetActionResult,
 
 import model from "../data/modelData";
 
+@injectable()
 export class ElementMockDb implements IElementRepository {
 
     elements: Array<IElement>;

@@ -32,6 +32,8 @@
   "dependencies": {
     "express": "^4.16.4",
     "guid-typescript": "^1.0.9",
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.0.6"
   }
 }

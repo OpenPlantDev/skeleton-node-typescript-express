@@ -1,3 +1,4 @@
+import {injectable} from "inversify";
 import sqlite3 from "sqlite3";
 import {SqliteService} from "../services/sqlite.service";
 import {IElement} from "../models/element";
@@ -46,6 +47,7 @@ const getQueryString = (tableName: string, options?: IQueryOptions) : string => 
     return `Select ${columns} from ${tableName} ${whereClause}`;
 }
 
+@injectable()
 export class ElementSqliteDb implements IElementRepository {
 
     sqliteService: SqliteService;

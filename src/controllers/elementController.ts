@@ -1,3 +1,5 @@
+import {inject, injectable} from "inversify";
+import DITypes from "../dependencyInjection/DITypes";
 import {Request, Response} from "express";
 import { IElementRepository } from '../repositories/elementRepository';
 import { QueryOptions } from "../services/queryOptions.service";
@@ -14,11 +16,12 @@ export interface IElementController {
 // Note that The ElementRepository calls return Promise<IElementRepositoryActionResult> because they are async due to reading/writing to db
 // The IElementRepositoryActionResult is an object with an err property and a data property
 
+@injectable()
 export class ElementController implements IElementController {
 
     elementRepository: IElementRepository;
 
-    constructor(elemRepo: IElementRepository) {
+    constructor(@inject(DITypes.ElemRepository)elemRepo: IElementRepository) {
         this.elementRepository = elemRepo;
     }
 

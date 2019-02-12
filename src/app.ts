@@ -1,19 +1,10 @@
+import container from "./dependencyInjection/DIContainer";
+import DITypes from "./dependencyInjection/DITypes";
 import {Api, IApiRouter} from "./api";
 
-import {ElementMockDb} from "./db/mockDb";
-import {ElementSqliteDb} from "./db/sqliteDb";
-import {ElementController} from "./controllers/elementController";
-import {ElementRouter} from "./routers/elementRouter";
+import {IElementRouter} from "./routers/elementRouter";
 
-const useMock = false;
-
-const elemRepo = useMock ? new ElementMockDb() : new ElementSqliteDb();
-
-
-// should use dependency injection here
-//const elemRepo = ;
-const elemController = new ElementController(elemRepo);
-const elemRouter = new ElementRouter(elemController);
+const elemRouter: IElementRouter = container.get<IElementRouter>(DITypes.ElemRouter);
 
 const routers: Array<IApiRouter> = [
     elemRouter

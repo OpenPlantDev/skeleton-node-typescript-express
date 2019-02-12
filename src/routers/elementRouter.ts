@@ -1,7 +1,10 @@
+import {inject, injectable} from "inversify";
+import DITypes from "../dependencyInjection/DITypes";
 import {Router} from "express";
 import {IElementController} from "../controllers/ElementController";
 
 export interface IElementRouter {
+    route: string;
     Routes: () => Router;
 }
 
@@ -11,13 +14,14 @@ export interface IElementRouter {
 // so in the ElementRouter a route defined for "/:id" has a full route of "/api/element/:id"
 // Note that the ElementController calls return Promise<Response> because they are async due to reading/writing to db
 
+@injectable()
 export class ElementRouter implements IElementRouter {
 
     route: string =  "/api/models/elements";
     router: Router;
     elementController: IElementController;
 
-    constructor(elemController: IElementController) {
+    constructor(@inject(DITypes.ElemController)elemController: IElementController) {
         this.router = Router();
         this.elementController = elemController;
     }
