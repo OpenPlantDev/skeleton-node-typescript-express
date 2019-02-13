@@ -63,7 +63,7 @@ export class ElementController implements IElementController {
     async AddElement(req: Request, res: Response) : Promise<Response> {
         let elem = {
             id: "",
-            elemType: req.params.elemType,
+            elemType: req.body.elemType,
             class: req.body.class,
             name: req.body.name,
             properties: req.body.properties ? req.body.properties : ""
