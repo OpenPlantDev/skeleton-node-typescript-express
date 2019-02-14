@@ -1,6 +1,6 @@
 import {injectable} from "inversify";
 import {Guid} from "guid-typescript";
-import {IElement} from "../models/element";
+import {IModelElement} from "../models/model";
 import {IElementRepositoryGetActionResult, 
         IElementRepositoryAddActionResult,
         IElementRepositoryDeleteActionResult,
@@ -11,7 +11,7 @@ import model from "../data/modelData";
 @injectable()
 export class ElementMockDb implements IElementRepository {
 
-    elements: Array<IElement>;
+    elements: Array<IModelElement>;
     constructor() {
         this.elements = model.elements;
     }
@@ -35,7 +35,7 @@ export class ElementMockDb implements IElementRepository {
         });
     }
 
-    AddElement(elem: IElement) : Promise<IElementRepositoryAddActionResult> {
+    AddElement(elem: IModelElement) : Promise<IElementRepositoryAddActionResult> {
 
         return new Promise<IElementRepositoryAddActionResult> ((resolve, reject) => {
             elem.elemType = elem.elemType ? elem.elemType : "";

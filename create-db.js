@@ -22,21 +22,21 @@ db.serialize(() => {
     elemType: "component",
     class: "valve",
     name: "V-100",
-    props: [ { desc: 'Gate Valve' }, { length: 50 }, { weight: 100 } ],
+    props: { desc: 'Gate Valve', length: 50, weight: 100 },
   };
 
   let pump = {
     elemType: "component",
     class: "pump",
     name: "P-100",
-    props: [{desc:"Centrifugal Pump"}, {manufacturer: "ABC"}],
+    props: {desc:"Centrifugal Pump", manufacturer: "ABC"},
   };
 
   let tank = {
     elemType: "component",
     class: "tank",
     name: "T-100",
-    props: [{desc:"Horizontal Tank"},{manufacturer: "XYZ"}],
+    props: {desc:"Horizontal Tank", manufacturer: "XYZ"},
   };
 
   let sql = `INSERT INTO elements (elemType, class, name, properties)  VALUES 
@@ -51,10 +51,10 @@ db.serialize(() => {
          
   console.log(`successfully added components to the element table in ${dbName}`);
 
-const u1 = { elemType: "wbsitem", id: "1", class: "unit", name: "U1", props: [{desc: "Unit #1"}] };
-const u2 = { elemType: "wbsitem", id: "2", class: "unit", name: "U2", props: [{desc: "Unit #2"}] };
-const s1 = { elemType: "wbsitem", id: "3", class: "service", name: "S1", props: [{desc: "Service #1"}] };
-const a1 = { elemType: "wbsitem", id: "4", class: "area", name: "A1", props: [{desc: "Area #1"}] };
+const u1 = { elemType: "wbsitem", id: "1", class: "unit", name: "U1", props: {desc: "Unit #1"} };
+const u2 = { elemType: "wbsitem", id: "2", class: "unit", name: "U2", props: {desc: "Unit #2"} };
+const s1 = { elemType: "wbsitem", id: "3", class: "service", name: "S1", props: {desc: "Service #1"} };
+const a1 = { elemType: "wbsitem", id: "4", class: "area", name: "A1", props: {desc: "Area #1"} };
 
   // insert data into wbsitems table:
   db.run(`INSERT INTO elements (elemType, class, name, properties)  VALUES 

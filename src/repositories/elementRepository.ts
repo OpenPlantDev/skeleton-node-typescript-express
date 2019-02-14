@@ -1,9 +1,9 @@
-import {IElement} from "../models/element";
+import {IModelElement} from "../models/model";
 import {IQueryOptions} from "../services/queryOptions.service";
 
 export interface IElementRepositoryGetActionResult {
     err: string | undefined;
-    data: IElement | Array<IElement> | undefined;
+    data: IModelElement | Array<IModelElement> | undefined;
 }
 
 export interface IElementRepositoryAddActionResult {
@@ -18,7 +18,7 @@ export interface IElementRepositoryDeleteActionResult {
 export interface IElementRepository {
     GetElements : (query: IQueryOptions) => Promise<IElementRepositoryGetActionResult>;
     GetElementById : (id: string) => Promise<IElementRepositoryGetActionResult>;
-    AddElement : (comp: IElement) => Promise<IElementRepositoryAddActionResult>;
+    AddElement : (comp: IModelElement) => Promise<IElementRepositoryAddActionResult>;
     DeleteElement : (id: string) => Promise<IElementRepositoryDeleteActionResult>;
 }
 

@@ -2,10 +2,11 @@ import {inject, injectable} from "inversify";
 import DITypes from "../dependencyInjection/DITypes";
 import {Router} from "express";
 import {IElementController} from "../controllers/ElementController";
+import * as socketio from "socket.io";
 
 export interface IElementRouter {
     route: string;
-    Routes: () => Router;
+    Routes: (ioServer: socketio.Server) => Router;
 }
 
 // The job of the Router is to pass the given request to the proper method on the given controller
@@ -26,7 +27,7 @@ export class ElementRouter implements IElementRouter {
         this.elementController = elemController;
     }
 
-    Routes() : Router {
+    Routes(ioServer: socketio.Server) : Router {
         // for a get request with route "/api/elements" call the GetElements method on the controller
         this.router.get("/", async (req, res) => {
             try {
@@ -53,6 +54,7 @@ export class ElementRouter implements IElementRouter {
         this.router.post("/", async (req, res) => {
             try {
                 const result = this.elementController.AddElement(req, res);
+                ioServer.emit("dbUpdated", `component added: ` );
                 return result;
             }
             catch(err) {
@@ -64,6 +66,7 @@ export class ElementRouter implements IElementRouter {
         this.router.delete("/:id", async (req, res) => {
             try {
                 const result = this.elementController.DeleteElement(req, res);
+                ioServer.emit("dbUpdated", `component deleted: ` );
                 return result;
             }
             catch(err) {

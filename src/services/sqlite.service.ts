@@ -13,18 +13,18 @@ export class SqliteService {
     constructor(db: sqlite3.Database) {
         this.db = db;
     }
-
-    getQuery = (tableName: string, options: IQueryOptions) : string => {
+    getQueryString = (tableName: string, options?: IQueryOptions) : string => {
         let whereClause = "";
         let columns = "*";
         if(options) {
-            whereClause = options.filter ? `Where ${options.filter}` : whereClause;
+            whereClause = options.filter ? `Where ${options.filter}`  : whereClause;
+            whereClause = options.orderby ? `${whereClause}  order by ${options.orderby}` : whereClause;
             whereClause = options.limit ? `${whereClause} Limit ${options.limit}` : whereClause;
         }
         return `Select ${columns} from ${tableName} ${whereClause}`;
     }
-    
-        // dbAll calls sqlite.db.all (which takes a callback) and returns a Promise
+       
+    // dbAll calls sqlite.db.all (which takes a callback) and returns a Promise
     // this allows callers to dbAll to use async/await
     dbAll = (query: string, params: any) : Promise<Array<any>> => {
         console.log(`query = ${query}`);

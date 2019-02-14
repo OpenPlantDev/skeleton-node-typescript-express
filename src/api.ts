@@ -1,9 +1,11 @@
 import express from "express";
 import {Router} from "express";
+import * as http from "http";
+import * as socketio from "socket.io";
 
 export interface IApiRouter {
     route: string;
-    Routes: () => Router;
+    Routes: (ioServer: socketio.Server) => Router;
 }
 
 export class Api {
@@ -29,16 +31,33 @@ export class Api {
 
         });
 
-        // routers
+        // set up the server and socket.io
+
+        let httpServer = new http.Server(api);
+
+        let io = socketio.listen(httpServer);
+
+        io.on("connection", (socket: any) => {
+            console.log(`a user connected`);
+
+            socket.on("message", (message: any) => {
+                console.log(`Received message: ${message}`);
+                io.emit("message", "Back at you");
+            });
+        });
+
+        // add the routes for each router
         routers.map((router) => {
-            api.use(router.route, router.Routes());
+            api.use(router.route, router.Routes(io));
         })
+        
+        
 
         // Start the server
 
         const port = process.env.PORT || 3030;
 
-        api.listen(port, () => {
+        httpServer.listen(port, () => {
             console.log(`Api is listening on http://localhost:${port}`);
         });
 

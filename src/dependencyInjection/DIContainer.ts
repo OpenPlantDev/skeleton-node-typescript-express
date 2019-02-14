@@ -10,7 +10,7 @@ import {IElementRouter, ElementRouter} from "../routers/elementRouter";
 import {ElementSqliteDb} from "../db/sqliteDb";
 import {ElementMockDb} from "../db/mockDb";
 
-const mockDb = true;
+const mockDb = false;
 
 let container = new Container();
 

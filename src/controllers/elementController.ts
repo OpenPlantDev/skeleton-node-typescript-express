@@ -68,7 +68,7 @@ export class ElementController implements IElementController {
             name: req.body.name,
             properties: req.body.properties ? req.body.properties : ""
         };
-        console.log(elem);
+        //console.log(elem);
         try {
             const result = await this.elementRepository.AddElement(elem);
             if(result.err) {

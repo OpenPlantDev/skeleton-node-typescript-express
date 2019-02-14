@@ -2,6 +2,7 @@ export interface IQueryOptions {
     elemType? : string | undefined;
     filter? : string | undefined;
     limit? : number | undefined;
+    orderby? : string | undefined;
 }
 
 export  class QueryOptions {
@@ -17,7 +18,8 @@ export  class QueryOptions {
         return {
             elemType: queryParams.elemType ? queryParams.elemType : undefined,
             filter: queryParams.filter ? queryParams.filter : undefined,
-            limit: limit
+            limit: limit,
+            orderby: queryParams.orderby ? queryParams.orderby : undefined
         }
     }
 }

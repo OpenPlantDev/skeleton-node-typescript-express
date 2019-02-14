@@ -1,17 +1,17 @@
 import {injectable} from "inversify";
 import sqlite3 from "sqlite3";
 import {SqliteService} from "../services/sqlite.service";
-import {IElement} from "../models/element";
 import {IElementRepositoryGetActionResult, 
         IElementRepositoryAddActionResult,
         IElementRepositoryDeleteActionResult,
         IElementRepository} from "../repositories/elementRepository";
 import { IQueryOptions } from "../services/queryOptions.service";
+import { IModelElement } from "../models/model";
 
 
 const tableName = "elements";
 
-const rowToComp = (row: any) : IElement => {
+const rowToComp = (row: any) : IModelElement => {
     return {
         id: row.id,
         elemType: row.elemType,        
@@ -21,30 +21,20 @@ const rowToComp = (row: any) : IElement => {
     }
 }
 
-const rowsToElementArray = (rows: Array<any>) : Array<IElement> => {
-    let elems = new Array<IElement>();
+const rowsToElementArray = (rows: Array<any>) : Array<IModelElement> => {
+    let elems = new Array<IModelElement>();
 
     if(!rows) {
         return elems;
     }
 
     rows.forEach((row) => {
-        let elem = rowToComp(row);
-        console.log(elem);
+        //let elem = rowToComp(row);
+        //console.log(elem);
         elems.push(rowToComp(row));
     });
 
     return elems;
-}
-
-const getQueryString = (tableName: string, options?: IQueryOptions) : string => {
-    let whereClause = "";
-    let columns = "*";
-    if(options) {
-        whereClause = options.filter ? `Where ${options.filter}`  : whereClause;
-        whereClause = options.limit ? `${whereClause} Limit ${options.limit}` : whereClause;
-    }
-    return `Select ${columns} from ${tableName} ${whereClause}`;
 }
 
 @injectable()
@@ -57,7 +47,7 @@ export class ElementSqliteDb implements IElementRepository {
     }
 
     async GetElements(options: IQueryOptions) : Promise<IElementRepositoryGetActionResult> {
-        const query = getQueryString(tableName, options);
+        const query = this.sqliteService.getQueryString(tableName, options);
         try {
             let rows = await this.sqliteService.dbAll(query, []);
             return({err: undefined, data: rowsToElementArray(rows)});
@@ -82,7 +72,8 @@ export class ElementSqliteDb implements IElementRepository {
         }
     }
 
-    async AddElement(elem: IElement) : Promise<IElementRepositoryAddActionResult> {
+    async AddElement(elem: IModelElement) : Promise<IElementRepositoryAddActionResult> {
+        //console.log(elem);
         const elemType = elem.elemType ? elem.elemType : "";
         const elemClass = elem.class ? elem.class.trim() : "";
         const elemName = elem.name ? elem.name.trim() : "";
