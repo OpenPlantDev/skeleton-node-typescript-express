@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev-start": "npm-run-all build start",
     "dev": "nodemon --exec npm run dev-start",
-    "start": "node ./out/app.js",
+    "start": "env-cmd ./.env node ./out/app.js",
     "test": "mocha --require ts-node/register test/**/*.test.ts"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "typescript": "^3.3.1"
   },
   "dependencies": {
+    "env-cmd": "^8.0.2",
     "express": "^4.16.4",
     "guid-typescript": "^1.0.9",
     "inversify": "^5.0.1",

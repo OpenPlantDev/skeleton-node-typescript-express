@@ -16,6 +16,10 @@ export class ElementMockDb implements IElementRepository {
         this.elements = model.elements;
     }
 
+    IsConnected () {
+        return true;
+    }
+
     GetElements() : Promise<IElementRepositoryGetActionResult> {
         return new Promise<IElementRepositoryGetActionResult>((resolve) => {
             resolve({err: undefined, data: this.elements});

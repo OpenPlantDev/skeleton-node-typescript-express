@@ -27,7 +27,7 @@ export class ElementController implements IElementController {
 
     async GetElements(req: Request, res: Response) : Promise<Response> {
         try {
-            console.log(req.params);
+            //console.log(req.params);
             const result = await this.elementRepository.GetElements(QueryOptions.get(req.query));
             if(result.err) {
                 res.status(400);
@@ -37,8 +37,7 @@ export class ElementController implements IElementController {
             }
         }
         catch(err) {
-            res.status(500);
-            return (res.send(err));
+            throw err;
         }
 
     }
@@ -55,8 +54,7 @@ export class ElementController implements IElementController {
             }
         }
         catch(err) {
-            res.status(500);
-            return(res.send(err));
+            throw err;
         }
     }
 
@@ -81,8 +79,7 @@ export class ElementController implements IElementController {
             }
         }
         catch(err) {
-            res.status(500);
-            return(res.send(err));
+            throw err;
         }
     }
 
@@ -97,8 +94,7 @@ export class ElementController implements IElementController {
             }
         }
         catch(err) {
-            res.status(500);
-            return(res.send(err));
+            throw err;
         }
     }
 } 

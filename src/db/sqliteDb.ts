@@ -1,4 +1,5 @@
 import {injectable} from "inversify";
+import * as fs from 'fs';
 import sqlite3 from "sqlite3";
 import {SqliteService} from "../services/sqlite.service";
 import {IElementRepositoryGetActionResult, 
@@ -40,13 +41,41 @@ const rowsToElementArray = (rows: Array<any>) : Array<IModelElement> => {
 @injectable()
 export class ElementSqliteDb implements IElementRepository {
 
-    sqliteService: SqliteService;
+    sqliteService: SqliteService | undefined = undefined;
+    connectionError: Error = new Error("");
+
     constructor() {
-        let db = new sqlite3.Database('model.db');
-        this.sqliteService = new SqliteService(db);
+        let connectionString = process.env.connectionString;
+        if(!connectionString) {
+            this.connectionError = new Error(`ConnectionString is not set in environment`);
+            console.log(this.connectionError.message);
+            return;
+        }
+        if(!fs.existsSync(connectionString)) {
+            this.connectionError = new Error(`Database not found: ${connectionString}`);
+            console.log(this.connectionError.message);
+            return;
+        }
+        let db = new sqlite3.Database(connectionString, (err) => {
+            if(err) {
+                this.connectionError = err;
+                console.log(this.connectionError.message);
+            }
+            else {
+                this.sqliteService = new SqliteService(db);
+            }
+        });
+    }
+
+    IsConnected = () => {
+        return this.sqliteService !== undefined;
     }
 
     async GetElements(options: IQueryOptions) : Promise<IElementRepositoryGetActionResult> {
+        if(this.sqliteService === undefined) {
+            console.log(this.connectionError.message);
+            throw this.connectionError;
+        }
         const query = this.sqliteService.getQueryString(tableName, options);
         try {
             let rows = await this.sqliteService.dbAll(query, []);
@@ -58,6 +87,10 @@ export class ElementSqliteDb implements IElementRepository {
     }
 
     async GetElementById(id: string) : Promise<IElementRepositoryGetActionResult> {
+        if(this.sqliteService === undefined) {
+            console.log(this.connectionError.message);
+            throw this.connectionError;
+        }
         const query = `Select * from ${tableName} where id=${id}`;
         try {
             let rows = await this.sqliteService.dbAll(query, []);
@@ -73,6 +106,10 @@ export class ElementSqliteDb implements IElementRepository {
     }
 
     async AddElement(elem: IModelElement) : Promise<IElementRepositoryAddActionResult> {
+        if(this.sqliteService === undefined) {
+            console.log(this.connectionError.message);
+            throw this.connectionError;
+        }
         //console.log(elem);
         const elemType = elem.elemType ? elem.elemType : "";
         const elemClass = elem.class ? elem.class.trim() : "";
@@ -99,6 +136,10 @@ export class ElementSqliteDb implements IElementRepository {
     }
 
     async DeleteElement(id: string) : Promise<IElementRepositoryDeleteActionResult> {
+        if(this.sqliteService === undefined) {
+            console.log(this.connectionError.message);
+            throw this.connectionError;
+        }
         const query = `Delete from ${tableName} where id=${id}`;
         try {
             let result = await this.sqliteService.dbRun(query, []);

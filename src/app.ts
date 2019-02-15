@@ -4,6 +4,8 @@ import {Api, IApiRouter} from "./api";
 
 import {IElementRouter} from "./routers/elementRouter";
 
+console.log(`ConnectionString=${process.env.ConnectionString}`);
+
 const elemRouter: IElementRouter = container.get<IElementRouter>(DITypes.ElemRouter);
 
 const routers: Array<IApiRouter> = [

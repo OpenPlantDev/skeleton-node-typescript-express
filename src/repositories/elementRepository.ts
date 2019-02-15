@@ -16,6 +16,7 @@ export interface IElementRepositoryDeleteActionResult {
 }
 
 export interface IElementRepository {
+    IsConnected: () => boolean;
     GetElements : (query: IQueryOptions) => Promise<IElementRepositoryGetActionResult>;
     GetElementById : (id: string) => Promise<IElementRepositoryGetActionResult>;
     AddElement : (comp: IModelElement) => Promise<IElementRepositoryAddActionResult>;

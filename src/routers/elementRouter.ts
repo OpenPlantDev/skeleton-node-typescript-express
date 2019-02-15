@@ -35,7 +35,8 @@ export class ElementRouter implements IElementRouter {
                 return result;
             }
             catch(err) {
-                throw err;
+                res.status(500);
+                return (res.send(err instanceof Error ? err.message: err));
             }
         });
 
@@ -46,7 +47,8 @@ export class ElementRouter implements IElementRouter {
                 return result;
             }
             catch(err) {
-                throw err;
+                res.status(500);
+                return (res.send(err instanceof Error ? err.message: err));
             }
         });
 
@@ -58,7 +60,8 @@ export class ElementRouter implements IElementRouter {
                 return result;
             }
             catch(err) {
-                return err;
+                res.status(500);
+                return (res.send(err instanceof Error ? err.message: err));
             }
         });
 
@@ -70,7 +73,8 @@ export class ElementRouter implements IElementRouter {
                 return result;
             }
             catch(err) {
-                return err;
+                res.status(500);
+                return (res.send(err instanceof Error ? err.message: err));
             }
         });
 
